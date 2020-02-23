@@ -1,0 +1,84 @@
+#include<bits/stdc++.h>
+#define debug(x) cout<<#x<<"::"<<x<<endl;
+using namespace std;
+typedef long long ll;
+
+void solve()
+{
+	int m,n;
+	cin>>m>>n; //length of two strings
+	string s1,s2;
+	cin>>s1>>s2; //two strings
+	int arr[m+1][n+1];
+	for(int i=0;i<=m;i++)
+	{
+		for(int j=0;j<=n;j++)
+		{
+			arr[i][j]=0;
+		}
+	}
+
+	//filling the matrix    T.C. : O(m*n)
+	for(int i=0;i<m;i++)
+	{
+		for(int j=0;j<n;j++)
+		{
+			if(s1[i]==s2[j])
+			{
+				arr[i+1][j+1]=1+arr[i][j];
+			}
+			else
+			{
+				arr[i+1][j+1]=max(arr[i+1][j],arr[i][j+1]);
+			}
+		}
+	}
+	cout<<arr[m][n]<<'\n';
+
+	int i,j;
+	string t;
+
+	//tracking the longest common subsequence
+	for(int i=m,j=n ;i>0,j>0 ;)
+	{
+		if(s1[i-1]==s2[j-1])
+		{
+			t+=s1[i-1];
+			i--,j--;
+		}
+		else
+		{
+			int x=arr[i][j];
+			if(arr[i][j-1]==x)
+			{
+				j--;
+			}
+			else if(arr[i-1][j]==x)
+			{
+				i--;
+			}
+		}
+	}
+	
+	//filipping the string to get it in right order
+	for(int i=0;i<t.length()/2;i++)
+	{
+		swap(t[i],t[t.length()-i-1]);
+	}
+
+	cout<<t<<'\n';
+}
+
+int main()
+{
+	#ifndef ONLINE_JUDGE
+	freopen("input.txt","r",stdin);
+	freopen("output.txt","w",stdout);
+	#endif
+	int t;
+	t=1;
+	cin>>t;
+	while(t--)
+		solve();
+	return 0;
+}
