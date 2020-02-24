@@ -75,3 +75,15 @@ int main()
 		solve();
 	return 0;
 }
+
+
+
+/*****Analysis******
+->The time requirement of quick sort depends on the relative size of the two sublists formed.
+->Best Case: When pivot is always placed in the middle of the list. O(n*log n)
+->Worst Case:  When pivot is smallest or largest element of the list. O(n^2)
+->Average Case: Avg case performance is closer to best case than worst case and is found to be O(n*log n)
+
+** It is not a stable sort.
+** Space complexity for this sort is O(log n)
+*/
