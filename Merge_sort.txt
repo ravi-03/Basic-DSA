@@ -1,0 +1,101 @@
+#include<bits/stdc++.h>
+#define debug(x) cout<<#x<<"::"<<x<<endl;
+using namespace std;
+typedef long long ll;
+
+
+//merging two sub-arrays i.e. arr[left,mid] and arr[mid+1,right] into auxilar_arr, and then copying them to original arr.
+void merge(int *arr, int *auxilary_arr,int left, int mid, int right)
+{
+	int i=left;
+	int j=mid+1;
+	int k=left;
+
+	while(i<=mid && j<=right)
+	{
+		if(arr[i]<=arr[j]) //If we write arr[i]<arr[j], then it is not a stable sort, because then right element will be placed before the left one.
+		{
+			auxilary_arr[k++]=arr[i++];
+		}
+		else if(arr[j]<arr[i])
+		{
+			auxilary_arr[k++]=arr[j++];
+		}
+	}
+	while(i<=mid)
+	{
+		auxilary_arr[k++]=arr[i++];
+	}
+	while(j<=right)
+	{
+		auxilary_arr[k++]=arr[j++];
+	}
+	
+	//copying back the into the arr, the sorted subarr arr[left,right]
+	for(int i=left;i<=right;i++)
+	{
+		arr[i]=auxilary_arr[i];
+	}
+}
+void merge_sort(int *arr, int *auxilary_arr, int low, int up)
+{
+	if(low>=up)
+	{
+		return;
+	}
+	int mid=low+(up-low)/2;
+	merge_sort(arr,auxilary_arr,low,mid);
+	merge_sort(arr,auxilary_arr,mid+1,up);
+	merge(arr,auxilary_arr,low,mid,up);
+}
+
+
+void print_array(int *arr,int size)
+{
+	for(int i=0;i<size;i++)
+	{
+		cout<<arr[i]<<' ';
+	}
+	cout<<'\n';
+}
+
+void solve()
+{
+	int n;
+	cin>>n;
+	int arr[n];
+	int auxilary_arr[n];
+	for(int i=0;i<n;i++)
+	{
+		cin>>arr[i];
+	}	
+	cout<<"Before Merge_sort::  ";
+	print_array(arr,n);
+	merge_sort(arr,auxilary_arr,0,n-1);
+	cout<<"After Merge_sort::  ";
+	print_array(arr,n);
+}
+
+int main()
+{
+	#ifndef ONLINE_JUDGE
+	freopen("input.txt","r",stdin);
+	freopen("output.txt","w",stdout);
+	#endif
+	int t;
+	t=1;
+	while(t--)
+		solve();
+	return 0;
+}
+
+
+/*****Analysis*****
+Best Case: O(n*log n)
+Worst Case: O(n*log n)
+Average Case: O(n*log n)
+
+** Since it is using extra space(auxilary_arr), therefore it is an OUT-OF-PLACE SORT
+** Merge sort is a STABLE SORT
+** Space Complexity:: O(n)
+*/
