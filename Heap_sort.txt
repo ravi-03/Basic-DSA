@@ -1,0 +1,113 @@
+#include<bits/stdc++.h>
+#define debug(x) cout<<#x<<"::"<<x<<endl;
+using namespace std;
+typedef long long ll;
+
+
+//deletion from heap (of root node)
+void restoreDown(int *arr, int i, int size)//O(log n)
+{
+	int lchild=2*i;
+	int rchild=lchild+1;
+	int k=arr[i];
+	while(rchild<=size)
+	{
+		if(k>arr[lchild] && k>arr[rchild])
+		{
+			arr[i]=k;
+			return;
+		}
+		else if(arr[lchild]>arr[rchild])
+		{
+			arr[i]=arr[lchild];
+			i=lchild;
+		}
+		else
+		{
+			arr[i]=arr[rchild];
+			i=rchild;
+		}
+		lchild=2*i;
+		rchild=lchild+1;
+	}
+	//if number of nodes is even
+	if(lchild==size && k<arr[lchild])
+	{
+		arr[i]=arr[lchild];
+		i=lchild;
+	}
+	arr[i]=k;
+}
+int delete_root(int arr[],int *h_size)
+{
+	int maxi=arr[1];//storing root value
+	arr[1]=arr[*h_size];
+	(*h_size)--;
+	restoreDown(arr,1,*h_size);
+	return maxi;
+}
+
+
+//Building a heap from a given array.
+//We are using bottom-up approach so that we don't need to write restoreUp as extra.
+void build_heap2(int *arr,int size)
+{
+	//we start working from the first non leaf node of heap
+	for(int i=size/2;i>=1;i--)//O(n*log n)
+	{
+		restoreDown(arr,i,size);//Bottom-up approach
+	}
+}
+
+
+//printing the heap
+void print_heap(int *arr,int size)
+{
+	for(int i=1;i<=size;i++)
+	{
+		cout<<arr[i]<<' ';
+	}
+	cout<<'\n';
+}
+
+
+//heap_sort function
+void heap_sort(int *arr, int size)//T.C.:: O(n*log n)
+{
+	int max;
+	build_heap2(arr,size);//O(n*log n)
+	while(size>1)//O(n* log n)
+	{
+		max=delete_root(arr,&size);//size is reduced by 1 here. delete_root requres O(log n)
+		arr[size+1]=max;
+	}
+}
+
+void solve()
+{
+	int n;
+	cin>>n;
+	int arr[n+1];
+	for(int i=1;i<=n;i++)
+	{
+		cin>>arr[i];
+	}
+	cout<<"Before sort:  ";
+	print_heap(arr,n);
+	heap_sort(arr,n);
+	cout<<"After sort:  ";
+	print_heap(arr,n);
+}
+
+int main()
+{
+	#ifndef ONLINE_JUDGE
+	freopen("input.txt","r",stdin);
+	freopen("output.txt","w",stdout);
+	#endif
+	int t;
+	t=1;
+	while(t--)
+		solve();
+	return 0;
+}
