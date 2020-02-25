@@ -27,7 +27,7 @@ void insert(int num, int arr[], int *h_size)
 
 
 //deletion from heap (of root node)
-void restoreDown(int *arr, int i, int size)//O(log n)
+void restoreDown(int *arr, int i, int size)//O(log n). This is sometimes also called MaxHeapify.
 {
 	int lchild=2*i;
 	int rchild=lchild+1;
@@ -73,16 +73,16 @@ int delete_root(int arr[],int *h_size)
 //Building a heap from a given array
 void build_heap(int *arr, int size)
 {
-	//i=1 is root of heap
+	//i=1 is root of heap. Initially we assume our heap to be empty.
 	for(int i=2;i<=size;i++)//T.C.:: O(n*log n)
 	{
 		restoreUp(arr,i);//Top-down approach
 	}
 }
-void build_heap2(int *arr,int size)
+void build_heap2(int *arr,int size)//T.C.:: O(n). This is sometimes called MaxHeapify
 {
 	//we start working from the first non leaf node of heap
-	for(int i=size/2;i>=1;i--)//O(n*log n)
+	for(int i=size/2;i>=1;i--)
 	{
 		restoreDown(arr,i,size);//Bottom-up approach
 	}
@@ -137,3 +137,8 @@ int main()
 		solve();
 	return 0;
 }
+
+/****Analysis*****
+Q. Why build_heap2 (Bottom up approach) is taking O(n)?
+sol: https://stackoverflow.com/questions/36226714/why-is-the-top-down-approach-of-heap-construction-less-efficient-than-bottom-up
+*/
