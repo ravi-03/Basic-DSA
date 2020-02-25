@@ -53,7 +53,7 @@ int delete_root(int arr[],int *h_size)
 void build_heap2(int *arr,int size)
 {
 	//we start working from the first non leaf node of heap
-	for(int i=size/2;i>=1;i--)//O(n*log n)
+	for(int i=size/2;i>=1;i--)//O(n)
 	{
 		restoreDown(arr,i,size);//Bottom-up approach
 	}
@@ -75,7 +75,7 @@ void print_heap(int *arr,int size)
 void heap_sort(int *arr, int size)//T.C.:: O(n*log n)
 {
 	int max;
-	build_heap2(arr,size);//O(n*log n)
+	build_heap2(arr,size);//O(n)
 	while(size>1)//O(n* log n)
 	{
 		max=delete_root(arr,&size);//size is reduced by 1 here. delete_root requres O(log n)
@@ -111,3 +111,16 @@ int main()
 		solve();
 	return 0;
 }
+
+
+/*****Analysis******
+Best Case: O(n*log n);
+Worst Case: O(n*log n);
+Average Case: O(n*log n);
+
+** It is NOT A STABLE sort
+** It has no need of extra space other than one tmp variable so it is an IN PLACE sort
+** Space Complexity: O(1)
+Q. Why Bottom-up approach of heap building is more efficient?
+sol: https://stackoverflow.com/questions/36226714/why-is-the-top-down-approach-of-heap-construction-less-efficient-than-bottom-up
+*/
