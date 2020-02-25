@@ -86,4 +86,6 @@ int main()
 
 ** It is not a stable sort.
 ** Space complexity for this sort is O(log n)
+
+If array is in Asc/Dsc/all elements are same :: T.C.::O(n^2)
 */
